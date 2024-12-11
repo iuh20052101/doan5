@@ -9,10 +9,12 @@ if (isset($_POST['guibinhluan']) && ($_POST['guibinhluan'])) {
     $noidung = $_POST['noi_dung'];
     $id_user = $_SESSION['user']['id'];
     $id_phim = $_POST['id_phim'];
-    $timebl = date('h:i:a d-m-Y');
-    binh_luan_insert($noidung, $id_user, $id_phim, $timebl);
+    
+    // Sử dụng hàm insert_binhluan đã được sửa
+    insert_binhluan($noidung, $id_user, $id_phim);
     header("location:" . $_SERVER['HTTP_REFERER']);
 }
+
 $dem_bl = dem_bl($id_phim);
 $listbl = binh_luan_select_all($id_phim);
 ?>
@@ -69,13 +71,15 @@ $listbl = binh_luan_select_all($id_phim);
     <div class="comment-sets">
       <?php foreach ($listbl as $bl){
           extract($bl);
+          // Format lại ngày giờ để hiển thị
+          $ngay_format = date('H:i d/m/Y', strtotime($ngaybinhluan));
           echo "<div class='comment'>
             <div class='comment__images'>
                 <img alt='' src='images/comment/avatar.jpg'>
             </div>
 
             <a href='#' class='comment__author'><span class='social-used '></span>$name</a>
-            <p class='comment__date'>$ngaybinhluan</p>
+            <p class='comment__date'>$ngay_format</p>
             <p class='comment__message'>$noidung</p>
         </div>";
       } ?>

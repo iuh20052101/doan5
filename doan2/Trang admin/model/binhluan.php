@@ -67,5 +67,11 @@ function delete_binhluan($id){
     pdo_execute($sql);
 }
 
+function insert_binhluan($noidung, $id_user, $id_phim) {
+    $ngaybinhluan = date('Y-m-d H:i:s'); // Format chuẩn cho MySQL DATETIME
+    $sql = "INSERT INTO binhluan(noidung, id_user, id_phim, ngaybinhluan) 
+            VALUES (?, ?, ?, ?)";
+    pdo_execute($sql, $noidung, $id_user, $id_phim, $ngaybinhluan);
+}
 
 ?>

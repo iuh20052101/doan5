@@ -1,23 +1,35 @@
 <?php
-ob_start();
 session_start();
-include "model/pdo.php";
-include "model/loai_phim.php";
-include "model/phim.php";
-include "model/phong.php";
-include "model/taikhoan.php";
-include "model/lichchieu.php";
-include "model/ve.php";
-include "model/hoadon.php";
-include "model/rap.php"; 
-include "model/khuyenmai.php";
 
+// Require các file model cần thiết
+require_once 'model/pdo.php';
+require_once 'model/taikhoan.php';
+require_once 'model/loai_phim.php';
+require_once 'model/phim.php';
+require_once 'model/phong.php';
+require_once 'model/lichchieu.php';
+require_once 'model/ve.php';
+require_once 'model/hoadon.php';
+require_once 'model/rap.php';
+require_once 'model/khuyenmai.php';
+
+// Require thư viện QR Code
+require_once 'qr/vendor/autoload.php';
+
+// Import các class QR Code
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+
+// Set timezone
 date_default_timezone_set("Asia/Ho_Chi_Minh");
+
+// Load dữ liệu cần thiết
 $loadloai = loadall_loaiphim();
 $loadphim = loadall_phim();
 $loadphimhot = loadall_phim_hot();
 $loadphimhome = loadall_phim_home();
-$loadrap = loadall_rap(); 
+$loadrap = loadall_rap();
 
 include "view/header.php";
 if(isset($_GET['act']) && $_GET['act']!=""){
@@ -237,7 +249,7 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                                     unset($_SESSION['reset_email']);
                                     unset($_SESSION['verification_code']);
                                     
-                                    // Thay vì dùng header, set một biến và điều hướng bằng JavaScript
+                                    // Thay vì dùng header, set một biến và điều hư���ng bằng JavaScript
                                     $_SESSION['success_message'] = "Đổi mật khẩu thành công";
                                     echo "<script>
                                             alert('Đổi mật khẩu thành công!');
@@ -601,67 +613,84 @@ if(isset($_GET['act']) && $_GET['act']!=""){
                                         
 
                                         case "bill":
-                                            if (!isset($_SESSION['tong']) || !isset($_SESSION['user'])) {
-                                                echo "<script>
-                                                    alert('Phiên làm việc đã hết hạn, vui lòng đặt vé lại!');
-                                                    window.location.href='index.php';
-                                                </script>";
-                                                exit;
-                                            }
-                                        
-                                            $payment_success = false;
+                                            if (isset($_GET['resultCode']) && isset($_GET['orderId'])) {
+                                                // Log toàn bộ dữ liệu callback để debug
+                                                error_log("MOMO Callback Data: " . print_r($_GET, true));
+                                                
+                                                try {
+                                                    if ($_GET['resultCode'] == '0') { // Thanh toán thành công
+                                                        // Kiểm tra chữ ký để đảm bảo dữ liệu hợp lệ
+                                                        $partnerCode = $_GET['partnerCode'];
+                                                        $orderId = $_GET['orderId'];
+                                                        $requestId = $_GET['requestId'];
+                                                        $amount = $_GET['amount'];
+                                                        $orderInfo = $_GET['orderInfo'];
+                                                        $orderType = $_GET['orderType'];
+                                                        $transId = $_GET['transId'];
+                                                        $resultCode = $_GET['resultCode'];
+                                                        $message = $_GET['message'];
+                                                        $payType = $_GET['payType'];
+                                                        $responseTime = $_GET['responseTime'];
+                                                        $extraData = $_GET['extraData'];
+                                                        $signature = $_GET['signature'];
 
-                                            // Kiểm tra response từ MOMO hoặc ZaloPay
-                                            if ((isset($_GET['resultCode']) && $_GET['resultCode'] == '0') || 
-                                                (isset($_GET['status']) && $_GET['status'] == 1)) {
-                                                $payment_success = true;
-                                            }
+                                                        // Tạo vé mới
+                                                        $sql = "INSERT INTO ve (
+                                                            ma_ve,
+                                                            id_tk,
+                                                            id_lichchieu,
+                                                            ghe_ngoi,
+                                                            tong_tien,
+                                                            trang_thai,
+                                                            ngay_dat,
+                                                            ma_giao_dich,
+                                                            phuong_thuc_thanh_toan
+                                                        ) VALUES (?, ?, ?, ?, ?, 1, NOW(), ?, 'momo')";
 
-                                            if ($payment_success) {
-                                                // Lấy thông tin từ session
-                                                $tong_tien = $_SESSION['tong']['tong_tien_thanh_toan'];
-                                                $ghe = $_SESSION['tong']['ghe']; 
-                                                $id_user = $_SESSION['user']['id'];
-                                                $id_kgc = $_SESSION['tong']['id_g'];
-                                                $id_lc = $_SESSION['tong']['id_lichchieu'];
-                                                $id_phim = $_SESSION['tong']['id_phim'];
-                                                $combo = isset($_SESSION['tong']['combo']) ? $_SESSION['tong']['combo'] : null;
+                                                        pdo_execute($sql,
+                                                            $orderId,
+                                                            $_SESSION['user']['id'],
+                                                            $_SESSION['tong']['id_lichchieu'],
+                                                            $_SESSION['tong']['ghe_ngoi'],
+                                                            $amount,
+                                                            $transId
+                                                        );
 
-                                                // Xử lý thanh toán thành công
-                                                $result = process_payment_success(
-                                                    $tong_tien, 
-                                                    $ghe, 
-                                                    $id_user, 
-                                                    $id_kgc, 
-                                                    $id_lc, 
-                                                    $id_phim, 
-                                                    $combo
-                                                );
+                                                        // Cập nhật trạng thái ghế
+                                                        $ghe_array = explode(',', $_SESSION['tong']['ghe_ngoi']);
+                                                        foreach ($ghe_array as $ghe) {
+                                                            $sql_ghe = "UPDATE ghe SET trang_thai = 1 
+                                                                       WHERE id_lichchieu = ? AND so_ghe = ?";
+                                                            pdo_execute($sql_ghe, 
+                                                                $_SESSION['tong']['id_lichchieu'],
+                                                                trim($ghe)
+                                                            );
+                                                        }
 
-                                                if ($result['success']) {
-                                                    // Lưu ID vé vào session để gửi mail sau
-                                                    $_SESSION['pending_email_ve_id'] = $result['id_ve'];
+                                                        // Xóa session không cần thiết
+                                                        unset($_SESSION['tong']);
+                                                        
+                                                        // Thông báo thành công
+                                                        echo "<script>
+                                                            alert('Thanh toán thành công! Vé của bạn đã được tạo.');
+                                                            window.location.href='index.php?act=lichsuve';
+                                                        </script>";
+
+                                                    } else {
+                                                        // Thanh toán thất bại
+                                                        throw new Exception("Thanh toán thất bại: " . $_GET['message']);
+                                                    }
                                                     
-                                                    // Xóa session đặt vé
-                                                    unset($_SESSION['tong']);
-                                                    
-                                                    // Chuyển hướng đến trang vé
+                                                } catch (Exception $e) {
+                                                    error_log("Error processing MOMO payment: " . $e->getMessage());
                                                     echo "<script>
-                                                        window.location.href='index.php?act=ve&id=" . $result['id_ve'] . "';
-                                                    </script>";
-                                                    exit;
-                                                } else {
-                                                    echo "<script>
-                                                        alert('Có lỗi xảy ra: " . addslashes($result['message']) . "');
-                                                        window.location.href='index.php?act=thanhtoan';
+                                                        alert('Có lỗi xảy ra: " . $e->getMessage() . "');
+                                                        window.location.href='index.php';
                                                     </script>";
                                                 }
                                             } else {
-                                                // Thanh toán thất bại
-                                                echo "<script>
-                                                    alert('Thanh toán không thành công!');
-                                                    window.location.href='index.php?act=thanhtoan';
-                                                </script>";
+                                                // Không có dữ liệu callback
+                                                header("Location: index.php");
                                             }
                                             break;
                                       

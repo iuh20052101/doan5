@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 ob_start();
 session_start();
 if (isset($_SESSION['user1'])) {
@@ -863,7 +865,7 @@ if (isset($_SESSION['user1'])) {
                 }
                 $selected_rap = isset($_GET['rap_id']) ? $_GET['rap_id'] : '';
 
-                // Lấy thông tin tuần đư��c chọn 
+                // Lấy thông tin tuần đ��ợc chọn 
                 $current_week = isset($_GET['week']) ? $_GET['week'] : date('Y-m-d');
                 $week_start = date('Y-m-d', strtotime('monday this week', strtotime($current_week)));
                 $week_end = date('Y-m-d', strtotime('sunday this week', strtotime($current_week)));

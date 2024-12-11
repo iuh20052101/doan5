@@ -8,17 +8,12 @@ function binh_luan_insert($noidung, $id_user, $id_phim, $timebl)
 
 function binh_luan_select_all($id_phim)
 {
-    $sql = "SELECT binhluan.id,
-       binhluan.noidung,
-       binhluan.ngaybinhluan,
-       phim.id AS film_id,
-       taikhoan.name
-FROM binhluan
-INNER JOIN phim ON phim.id = binhluan.id_phim
-INNER JOIN taikhoan ON taikhoan.id = binhluan.id_user
-WHERE binhluan.id_phim = '$id_phim'
-ORDER BY binhluan.id DESC";
-    return pdo_query($sql);
+    $sql = "SELECT bl.*, tk.name 
+            FROM binhluan bl 
+            LEFT JOIN taikhoan tk ON bl.id_user = tk.id 
+            WHERE bl.id_phim = ? 
+            ORDER BY bl.ngaybinhluan DESC";
+    return pdo_query($sql, $id_phim);
 }
 
 function dem_bl($id_phim)
@@ -33,4 +28,10 @@ function dem_bl($id_phim)
         INNER JOIN taikhoan ON taikhoan.id = binhluan.id_user 
         WHERE binhluan.id_phim = '$id_phim'";
     return pdo_query($sql);
+}
+
+function insert_binhluan($noidung, $id_user, $id_phim) {
+    $sql = "INSERT INTO binhluan(noidung, id_user, id_phim, ngaybinhluan) 
+            VALUES (?, ?, ?, NOW())";
+    pdo_execute($sql, $noidung, $id_user, $id_phim);
 }

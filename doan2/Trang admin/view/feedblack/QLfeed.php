@@ -56,7 +56,16 @@
                                     <td><?=$bl['name']?></td>
                                     <td><?=$bl['tieu_de']?></td>
                                     <td><?=$bl['noidung']?></td>
-                                    <td><?=date('d/m/Y H:i', strtotime($bl['ngaybinhluan']))?></td>
+                                    <td>
+                                        <?php 
+                                        $ngay_bl = strtotime($bl['ngaybinhluan']);
+                                        if ($ngay_bl) {
+                                            echo date('d/m/Y H:i', $ngay_bl);
+                                        } else {
+                                            echo $bl['ngaybinhluan'];
+                                        }
+                                        ?>
+                                    </td>
                                     <td>
                                         <div class="table-action-buttons">
                                             <a onclick="return confirm('Bạn có muốn xóa không?')" 
