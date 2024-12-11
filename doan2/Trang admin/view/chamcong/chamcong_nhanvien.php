@@ -63,17 +63,25 @@ include "./view/home/sideheader.php";
             <div class="row align-items-end">
                 <div class="col-md-3">
                     <label>Chọn rạp</label>
-                    <select name="rap" class="form-control">
+                    <?php
+                    $user_role = $_SESSION['user1']['vai_tro'];     // Thay thế theo logic của bạn
+                    $current_rap_id = $_SESSION['user1']['rap_id']; // ID rạp của nhân viên nếu là nhân viên
+                    $is_employee = ($user_role === 3);            // Kiểm tra vai trò có phải nhân viên
+                    ?>
+                    <select name="rap" class="form-control" <?= $is_employee ? 'disabled' : 'required' ?>>
                         <option value="">Tất cả rạp</option>
-                        <?php foreach($dsRap as $rap): ?>
-                            <option value="<?= $rap['id'] ?>" 
-                                <?= isset($_GET['rap']) && $_GET['rap'] == $rap['id'] ? 'selected' : '' ?>>
-                                <?= $rap['tenrap'] ?>
-                            </option>
+                        <?php foreach ($dsRap as $rap):
+                            $selected = ($rap['id'] == $current_rap_id) ? 'selected' : '';
+                        ?>
+                            <option value="<?= $rap['id'] ?>" <?= $selected ?>><?= $rap['tenrap'] ?></option>
                         <?php endforeach; ?>
                     </select>
+
+                    <?php if ($is_employee): ?>
+                        <input type="hidden" name="rap" value="<?= $current_rap_id ?>">
+                    <?php endif; ?>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label>Chọn tháng</label>
                     <input type="month" name="thang" class="form-control" 
                            value="<?= isset($_GET['thang']) ? $_GET['thang'] : date('Y-m') ?>">
@@ -84,13 +92,13 @@ include "./view/home/sideheader.php";
                            value="<?= isset($_GET['ngay']) ? $_GET['ngay'] : date('Y-m-d') ?>">
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-success w-100" onclick="exportExcel()">
+                    <button type="button" class="btn btn-success " onclick="exportExcel()">
                         <i class="fas fa-file-excel mr-2"></i>Xuất Excel
                     </button>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-filter mr-2"></i>Xem lịch
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter mr-2"></i>Lọc
                     </button>
                 </div>
             </div>

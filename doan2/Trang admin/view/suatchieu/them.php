@@ -38,7 +38,7 @@
                         <?php
                         $user_role = $_SESSION['user1']['vai_tro'];     // Thay thế theo logic của bạn
                         $current_rap_id = $_SESSION['user1']['rap_id']; // ID rạp của nhân viên nếu là nhân viên
-                        $is_employee = ($user_role === '1');            // Kiểm tra vai trò có phải nhân viên
+                        $is_employee = ($user_role === 1);            // Kiểm tra vai trò có phải nhân viên
                         ?>
 
                         <select name="id_rap" class="form-control" <?= $is_employee ? 'disabled' : 'required' ?>>

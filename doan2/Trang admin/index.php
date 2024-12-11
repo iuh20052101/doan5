@@ -858,7 +858,7 @@ if (isset($_SESSION['user1'])) {
                 $dsrap = getAllRap();
 
                 // Lấy thông tin rạp được chọn
-                if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 1) {
+                if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 3) {
                     $rap_id = $_SESSION['user1']['rap_id'];
                 }
 
@@ -868,7 +868,7 @@ if (isset($_SESSION['user1'])) {
                 $week_end = date('Y-m-d', strtotime('sunday this week', strtotime($current_week)));
 
                 // Load lịch làm việc
-                $loadlichlamviec = loadall_lichlamviec($selected_rap, $week_start, $week_end);
+                $loadlichlamviec = loadall_lichlamviec();
 
                 // Include view
                 include "./view/lichlamviec/lichlamviec.php";
@@ -1323,7 +1323,9 @@ if (isset($_SESSION['user1'])) {
                 $thang = isset($_GET['thang']) ? date('m', strtotime($_GET['thang'])) : date('m');
                 $nam = isset($_GET['thang']) ? date('Y', strtotime($_GET['thang'])) : date('Y');
                 $ngay = isset($_GET['ngay']) ? $_GET['ngay'] : date('Y-m-d');
-                $rap_id = isset($_GET['rap']) ? $_GET['rap'] : null;
+                if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 3) {
+                    $rap_id = $_SESSION['user1']['rap_id'];
+                }
 
                 $dsRap = getAllRap();  // Sử dụng function từ lichlamviec.php
                 $dsLichLamViec = getLichLamViecNhanVien($ngay, $rap_id);
@@ -1335,7 +1337,9 @@ if (isset($_SESSION['user1'])) {
 
             case 'chamcong_quanly':
                 // Lấy tham số
-                $rap_id = isset($_GET['rap_id']) ? $_GET['rap_id'] : null;
+                if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 3) {
+                    $rap_id = $_SESSION['user1']['rap_id'];
+                }
                 $thang = isset($_GET['thang']) ? $_GET['thang'] : date('m');
                 $nam = isset($_GET['nam']) ? $_GET['nam'] : date('Y');
 
@@ -1451,7 +1455,9 @@ if (isset($_SESSION['user1'])) {
 
                 // Lấy danh sách rạp để lọc
                 $dsRap = getAllRap();
-                $rap_id = isset($_GET['rap']) ? $_GET['rap'] : null;
+                if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 1) {
+                    $rap_id = $_SESSION['user1']['rap_id'];
+                }
 
                 // Lấy danh sách nhân viên và tính lương
                 $dsNhanVien = getAllNhanVien($rap_id);

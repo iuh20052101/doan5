@@ -315,19 +315,27 @@ textarea.form-control:focus {
         <form method="GET" class="mb-0">
             <input type="hidden" name="act" value="chamcong_quanly">
             <div class="row align-items-end">
-                <div class="col-md-3">
+            <div class="col-md-3">
                     <label>Chọn rạp</label>
-                    <select name="rap_id" class="form-control">
+                    <?php
+                    $user_role = $_SESSION['user1']['vai_tro'];     // Thay thế theo logic của bạn
+                    $current_rap_id = $_SESSION['user1']['rap_id']; // ID rạp của nhân viên nếu là nhân viên
+                    $is_employee = ($user_role === 3);            // Kiểm tra vai trò có phải nhân viên
+                    ?>
+                    <select name="rap" class="form-control" <?= $is_employee ? 'disabled' : 'required' ?>>
                         <option value="">Tất cả rạp</option>
-                        <?php foreach($dsRap as $rap): ?>
-                            <option value="<?= $rap['id'] ?>" 
-                                <?= (isset($_GET['rap_id']) && $_GET['rap_id'] == $rap['id']) ? 'selected' : '' ?>>
-                                <?= $rap['tenrap'] ?>
-                            </option>
+                        <?php foreach ($dsRap as $rap):
+                            $selected = ($rap['id'] == $current_rap_id) ? 'selected' : '';
+                        ?>
+                            <option value="<?= $rap['id'] ?>" <?= $selected ?>><?= $rap['tenrap'] ?></option>
                         <?php endforeach; ?>
                     </select>
+
+                    <?php if ($is_employee): ?>
+                        <input type="hidden" name="rap" value="<?= $current_rap_id ?>">
+                    <?php endif; ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="date-filter">
                         <div>
                             <label>Tháng</label>
@@ -352,7 +360,7 @@ textarea.form-control:focus {
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary">
                         <i class="fas fa-filter mr-2"></i>Lọc
                     </button>
                 </div>

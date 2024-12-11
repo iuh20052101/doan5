@@ -396,13 +396,19 @@ function tinhLuongNhanVien($ten_nhanvien, $thang, $nam) {
     ];
 }
 
-function getAllQuanLy() {
+function getAllQuanLy($rap_id = 0) {
     $sql = "SELECT id, name
             FROM taikhoan 
-            WHERE vai_tro = 1 ";
-          
+            WHERE vai_tro = 3";
+    
+    if ($rap_id != 0) {
+        $sql .= " AND rap_id = ?";
+        return pdo_query($sql, $rap_id);
+    }
+
     return pdo_query($sql);
 }
+
 
 function getAllNhanVien($rap_id = null) {
     $sql = "SELECT DISTINCT ten_nhanvien 
