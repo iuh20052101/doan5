@@ -175,16 +175,6 @@ if (isset($suatc)) {
                                     <input type="hidden" name="id_rap" value="<?= $current_rap_id ?>">
                                 <?php endif; ?>
                             </div>
-                            
-                            <div class="col-md-6 mb-20">
-                                <label class="form-label">Chọn rạp</label>
-                                <select class="form-control" name="id_rap" required>
-                                    <option value="">Chọn rạp</option>
-                                    <?php foreach ($rap_list as $rap): ?>
-                                        <option value="<?= $rap['id'] ?>"><?= $rap['tenrap'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
 
                             <!-- Ngày bắt đầu và số tuần -->
                             <div class="col-md-4 mb-20">
