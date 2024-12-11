@@ -694,13 +694,17 @@ if (isset($_SESSION['user1'])) {
                     if (empty($_POST['dia_chi'])) {
                         $error = " không được để trống";
                     }
+                    if (empty($_POST['rap_id'])) {
+                        $error = " không được để trống";
+                    }
                     if (!isset($error)) {
                         $name = $_POST['name'];
                         $user = $_POST['user'];
                         $email = $_POST['email'];
                         $phone = $_POST['phone'];
                         $dia_chi = $_POST['dia_chi'];
-                        insert_taikhoan($email, $user, $pass, $name, $phone, $dia_chi);
+                        $rap_id = $_POST['rap_id'];
+                        insert_taikhoan($email, $user, $pass, $name, $phone, $dia_chi,$rap_id);
                         $suatc = "Thêm thành công";
                     }
                 }

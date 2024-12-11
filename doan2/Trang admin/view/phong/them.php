@@ -5,7 +5,7 @@ $rap_list = pdo_query($sql_rap);
 ?>
 <!-- Content Body Start -->
 <div class="content-body">
-<link rel="stylesheet" href="assets/css/stylecolor.css">
+    <link rel="stylesheet" href="assets/css/stylecolor.css">
 
     <!-- Page Headings Start -->
     <div class="row justify-content-between align-items-center mb-10">
@@ -17,9 +17,9 @@ $rap_list = pdo_query($sql_rap);
     </div><!-- Page Headings End -->
 
     <!-- Thông báo -->
-    <?php if(isset($suatc) && ($suatc) != "") {
-        echo '<p style="color: red; text-align: center;">' .$suatc. '</p>';
-    }?>
+    <?php if (isset($suatc) && ($suatc) != "") {
+        echo '<p style="color: red; text-align: center;">' . $suatc . '</p>';
+    } ?>
 
     <!-- Form Thêm Phòng -->
     <div class="row">
@@ -41,19 +41,39 @@ $rap_list = pdo_query($sql_rap);
 
                         <div class="row">
                             <div class="col-lg-6 col-12 mb-30">
-                                <div class="form-group">
-                                    <label class="title">Rạp</label>
-                                    <select class="form-control select2" name="rap_id" disabled style="width: 100%;">
-                                        <option value="">Chọn rạp</option>
-                                        <?php
-                                        foreach($rap_list as $rap) {
-                                            $selected = ($rap['id'] == $rap_id) ? 'selected' : '';
-                                            echo "<option value='{$rap['id']}' {$selected}>{$rap['tenrap']}</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                    <input type="hidden" name="rap_id" value="<?= $rap_id ?>">
-                                </div>
+                                <?php
+                                $user_role = $_SESSION['user1']['vai_tro'];     // Thay thế theo logic của bạn
+                                $current_rap_id = $_SESSION['user1']['rap_id']; // ID rạp của nhân viên nếu là nhân viên
+                                $is_employee = ($user_role === 3);            // Kiểm tra vai trò có phải nhân viên
+                                ?>
+                                <?php if ($is_employee): ?>
+                                    <div class="form-group">
+                                        <label class="title">Rạp</label>
+                                        <select class="form-control select2" name="rap_id" disabled style="width: 100%;">
+                                            <option value="">Chọn rạp</option>
+                                            <?php
+                                            foreach ($rap_list as $rap) {
+                                                $selected = ($rap['id'] == $rap_id) ? 'selected' : '';
+                                                echo "<option value='{$rap['id']}' {$selected}>{$rap['tenrap']}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        <input type="hidden" name="rap_id" value="<?= $rap_id ?>">
+                                    </div>
+                                <?php else: ?>
+                                    <div class="form-group">
+                                        <label class="title">Rạp</label>
+                                        <select class="form-control select2" name="rap_id" required style="width: 100%;">
+                                            <option value="">Chọn rạp</option>
+                                            <?php
+                                            foreach ($rap_list as $rap) {
+                                                $selected = ($rap['id'] == $rap_id) ? 'selected' : '';
+                                                echo "<option value='{$rap['id']}' {$selected}>{$rap['tenrap']}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -89,8 +109,8 @@ $rap_list = pdo_query($sql_rap);
                             </div>
                         </div>
 
-                        <?php if(isset($error) && $error != "") {
-                            echo '<p style="color: red; text-align: center;">' .$error. '</p>';
+                        <?php if (isset($error) && $error != "") {
+                            echo '<p style="color: red; text-align: center;">' . $error . '</p>';
                         } ?>
                     </form>
                 </div>

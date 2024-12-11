@@ -39,8 +39,8 @@ function dang_xuat(){
     unset($_SESSION['user']);
 }
 
-function insert_taikhoan($email,$user,$pass,$name,$sdt,$dc){
-    $sql="INSERT INTO `taikhoan` ( `email`, `user`, `pass`,`dia_chi`,`phone`,`name`,`vai_tro`) VALUES ( '$email', '$user','$pass','$dc','$sdt','$name','1'); ";
+function insert_taikhoan($email,$user,$pass,$name,$sdt,$dc, $rap_id){
+    $sql="INSERT INTO `taikhoan` ( `email`, `user`, `pass`,`dia_chi`,`phone`,`name`,`vai_tro`, `rap_id`) VALUES ( '$email', '$user','$pass','$dc','$sdt','$name','1','$rap_id'); ";
     pdo_execute($sql);
 }
 
