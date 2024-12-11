@@ -1,0 +1,7 @@
+{
+    "appid": "553",
+    "key1": "9phuAOYhan4urywHTh0ndEXiV3pKHr5Q",
+    "key2": "Iyz2habzyr7AG8SgvoBCbKwKi3UzlLi3",
+    "endpoint": "https://sb-openapi.zalopay.vn/v2/create",
+    "redirecturl": "http://localhost/doan4/Trang%20người%20dùng/view/zalopay/zalopay_return.php"
+} 

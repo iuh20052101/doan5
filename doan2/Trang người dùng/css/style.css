@@ -1,0 +1,122 @@
+  /* Styling cho tất cả tiêu đề */
+h1, h2, h3, h4, h5, h6,
+.page-heading,
+.heading--outcontainer,
+.heading--outcontainer1,
+.form__title,
+.movie__title,
+.terms-title,
+.aboutus-title,
+.social-group__head {
+    background: linear-gradient(45deg, #00dbde, #fc00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    font-weight: 900;
+}
+  .auth-form-outer {
+            color: #161516;
+            padding: 20px; /* Giảm padding để làm khung nhỏ hơn */
+            max-width: 400px; /* Đặt chiều rộng tối đa cho khung */
+            margin: auto; /* Căn giữa khung */
+            border:1px solid  #585458 ;
+        }
+
+        .auth-form-outer button {
+            background-color: rgb(212, 89, 89);
+            border:1px solid  #585458 ;
+            color: #585458;
+            margin-top: 10px;
+            border-radius: 0; /* Loại bỏ bo góc */
+        }
+
+        .dv1 {
+            font-size: 2vw;
+            color: red;
+            text-align: center;
+            font-family: unset;
+        }
+
+        .loi {
+            font-size: 15px;
+            padding-bottom: 10px;
+        }
+
+        .dn {
+            font-size: 30px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+    .ghe12 {
+        width: 250%;}
+        .tong {
+            max-width: 90%;
+            margin-top: 20px;
+            background-color: #dcc1c1;
+            /* border-radius: 10px; */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            color: #585458;
+            /* font-weight: 600; */
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            cursor: pointer;}
+
+.tong:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Đổ bóng lớn hơn khi hover */
+    transform: scale(1.02); /* Phóng to nhỏ phần tử khi hover */
+}
+
+.phim {
+    margin-top: 10px;
+        font-weight: bold;
+      }
+      
+       /* .win {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      
+      .win span p{
+        display: inline-block;
+        margin-right: 10px;
+      }  */
+      
+      .checked-place {
+        margin-left: 10px; 
+      }
+      
+      .choosen-place {
+        display: inline-block;
+        margin-right: 5px;
+        border: 2px solid white;
+        background-color: #5C5D5F;
+        padding: 2px 3px;
+        border-radius: 3px;
+        border-radius: 8px;
+        color: white;
+      }
+    .phim{
+        font-size: 2vw;
+        padding-top: 20px;
+        font-weight: 500;
+        color:#585458;
+    }
+    .tongtien{
+        padding-bottom: 20px;
+        font-size: 20px;
+    }
+    .tieptuc input {
+        font-size: 20px;
+        background-color: #ffd564;
+    }
+    a .tt{
+        font-size: 20px;
+    }
+    .payment ul  {
+      display: flex ;
+    
+    }
+    .payment ul li {
+        padding: 0 20px;
+    }
+    
