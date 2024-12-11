@@ -42,15 +42,17 @@ $rap_list = pdo_query($sql_rap);
                         <div class="row">
                             <div class="col-lg-6 col-12 mb-30">
                                 <div class="form-group">
-                                    <label class="label-control">Rạp</label>
-                                    <select class="form-control" name="rap_id" required>
+                                    <label class="title">Rạp</label>
+                                    <select class="form-control select2" name="rap_id" disabled style="width: 100%;">
                                         <option value="">Chọn rạp</option>
                                         <?php
                                         foreach($rap_list as $rap) {
-                                            echo "<option value='{$rap['id']}'>{$rap['tenrap']}</option>";
+                                            $selected = ($rap['id'] == $rap_id) ? 'selected' : '';
+                                            echo "<option value='{$rap['id']}' {$selected}>{$rap['tenrap']}</option>";
                                         }
                                         ?>
                                     </select>
+                                    <input type="hidden" name="rap_id" value="<?= $rap_id ?>">
                                 </div>
                             </div>
                         </div>
