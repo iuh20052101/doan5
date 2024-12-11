@@ -1,34 +1,48 @@
 <?php
 
-function loadall_phim($searchName1 = "", $searchLoai = "", $rap_id=0)
-{
-    $sql = "SELECT DISTINCT p.id, p.tieu_de,p.gia_ve, p.daodien, p.dienvien, p.img, p.mo_ta, p.date_phat_hanh, p.thoi_luong_phim, loaiphim.name, p.quoc_gia, p.gia_han_tuoi
+function loadall_phim($searchName1 = "", $searchLoai = "", $rap_id = 0) {
+    $sql = "SELECT DISTINCT p.id, p.tieu_de, p.gia_ve, p.daodien, p.dienvien, 
+                   p.img, p.mo_ta, p.date_phat_hanh, p.thoi_luong_phim, 
+                   lp.name, p.quoc_gia, p.gia_han_tuoi
             FROM phim p
-            INNER JOIN loaiphim ON loaiphim.id = p.id_loai
-            INNER JOIN lichchieu lc ON p.id = lc.id_phim
-            INNER JOIN rap r ON lc.rap_id = r.id
-            WHERE 1 ";
-
-    // Thêm điều kiện tìm kiếm theo tên phim
+            LEFT JOIN loaiphim lp ON lp.id = p.id_loai";
+    
+    if ($rap_id != 0) {
+        $sql .= " LEFT JOIN lichchieu lc ON p.id = lc.id_phim
+                  LEFT JOIN rap r ON lc.rap_id = r.id";
+    }
+    
+    $sql .= " WHERE 1=1";
+    $params = array();
+    
     if (!empty($searchName1)) {
-        $sql .= " AND p.tieu_de LIKE '%" . $searchName1 . "%' ";
+        $sql .= " AND p.tieu_de LIKE ?";
+        $params[] = "%$searchName1%";
     }
-
-    // Thêm điều kiện tìm kiếm theo loại phim
+    
     if (!empty($searchLoai)) {
-        $sql .= " AND loaiphim.name LIKE '%" . $searchLoai . "%' ";
+        $sql .= " AND lp.name LIKE ?";
+        $params[] = "%$searchLoai%";
     }
-
-    // Thêm điều kiện tìm kiếm theo rạp
-    if($rap_id!=0)
-    {
-        $sql .= " AND r.id = " .$rap_id;
+    
+    if ($rap_id != 0) {
+        $sql .= " AND (r.id = ? OR r.id IS NULL)";
+        $params[] = $rap_id;
     }
-
+    
     $sql .= " ORDER BY p.id DESC";
-
-    $re = pdo_query($sql);
-    return $re;
+    
+    try {
+        if (empty($params)) {
+            $result = pdo_query($sql);
+        } else {
+            $result = pdo_query($sql, ...$params);
+        }
+        return $result;
+    } catch (Exception $e) {
+        error_log("Error in loadall_phim: " . $e->getMessage());
+        return array();
+    }
 }
 
 function get_phim_theo_rap($rap_id) {

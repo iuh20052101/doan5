@@ -55,8 +55,8 @@ $partnerCode = "MOMOBKUN20180529";
 $accessKey = "klm05TvNBzhg7h7j";
 $secretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
 $orderInfo = "Thanh toán vé xem phim";
-$redirectUrl = "http://localhost/doan4/Trang%20người%20dùng/index.php?act=bill";
-$ipnUrl = "http://localhost/doan4/Trang%20người%20dùng/index.php?act=bill";
+$redirectUrl = "http://localhost/doan5/doan2/Trang%20người%20dùng/index.php?act=bill";
+$ipnUrl = "http://localhost/doan5/doan2/Trang%20người%20dùng/index.php?act=bill";
 $extraData = "";
 
 $requestId = time() . "";

@@ -301,7 +301,7 @@ textarea.form-control:focus {
 </style>
 
 <div class="chamcong-content">
-<link rel="stylesheet" href="assets/css/stylecolor.css">
+<!-- <link rel="stylesheet" href="assets/css/stylecolor.css"> -->
     <div class="row justify-content-between align-items-center mb-4">
         <div class="col-12 col-lg-auto">
             <div class="page-heading">

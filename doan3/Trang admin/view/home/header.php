@@ -111,6 +111,8 @@
                                                     $roleLabel = 'Nhân viên';
                                                 } elseif ($vai_tro == 2) {
                                                     $roleLabel = 'Chủ';
+                                                } elseif ($vai_tro == 3) {
+                                                    $roleLabel = 'Quản lý';
                                                 }
                                                 echo '<div class="head">
                                                      
@@ -121,11 +123,11 @@
 
                                                 if ($vai_tro == 1) {
                                                     // Nếu vai_tro là 1 (nhân viên), hiển thị các tùy chọn cho nhân viên
-                                                    echo '<li><a href="http://localhost:/doan2/Trang%20admin/login.php"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>';
+                                                    echo '<li><a href="http://localhost:/doan5/doan2/Trang%20admin/login.php"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>';
                                                     // Thêm các tùy chọn khác cho nhân viên nếu cần
                                                 } elseif ($vai_tro == 2) {
                                                     // Nếu vai_tro là 2 (chủ shop), hiển thị các tùy chọn cho chủ shop
-                                                    echo '<li><a href="http://localhost:/doan2/Trang%20admin/login.php"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>';
+                                                    echo '<li><a href="http://localhost:/doan5/doan2/Trang%20admin/login.php"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>';
                                                 }
 
                                                 echo '</ul></div></div>';

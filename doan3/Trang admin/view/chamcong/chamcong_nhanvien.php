@@ -46,7 +46,7 @@ include "./view/home/sideheader.php";
 </style>
 
 <div class="chamcong-content">
-<link rel="stylesheet" href="assets/css/stylecolor.css">
+<!-- <link rel="stylesheet" href="assets/css/stylecolor.css"> -->
 
     <div class="row justify-content-between align-items-center mb-4">
         <div class="col-12 col-lg-auto">
@@ -299,6 +299,7 @@ include "./view/home/sideheader.php";
     background: #2196F3;
     color: white;
     padding: 15px 20px;
+    margin-left:30px;
 }
 
 .modal-title {

@@ -82,7 +82,7 @@ if (isset($_SESSION['update_success']) && $_SESSION['update_success']) {
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 
 <div class="content-body">
-    <link rel="stylesheet" href="assets/css/stylecolor.css">
+    <!-- <link rel="stylesheet" href="assets/css/stylecolor.css"> -->
 
     <!-- Form lọc -->
     <div class="row mb-30">

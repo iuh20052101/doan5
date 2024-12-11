@@ -15,11 +15,9 @@ if (is_array($loadtk)) {
         <!-- Page Heading Start -->
         <div class="col-12 col-lg-auto mb-20">
             <div class="page-heading">
-                <h3>Quản Lý Tài Khoản<span>/ Sửa Người Dùng<tg/span></h3>
+                <h3>Quản Lý Tài Khoản<span>/ Sửa Người Dùng</span></h3>
             </div>
         </div><!-- Page Heading End -->
-
-        <!-- Page Button Group Start -->
 
     </div><!-- Page Headings End -->
 
@@ -32,24 +30,18 @@ if (is_array($loadtk)) {
                 <h4 class="title">Sửa Người Dùng</h4>
 
                 <div class="row">
-                <input  type="hidden" name="id" value="<?=$id?>">
-                <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text"   value="<?=$name?>"  name="name"></div>
+                <input type="hidden" name="id" value="<?=$id?>">
+                <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$name?>" name="name"></div>
                         <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$user?>" name="user"></div>
-                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text"  value="<?=$pass?>"  name="pass"></div>
-                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text"  value="<?=$email?>"  name="email"></div>
-                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="number_format"  value="<?=$phone?>"  name="phone"></div>
-                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$dia_chi?>"   name="dia_chi"></div>
-                </div>
-                  
-                  
-
-
+                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$pass?>" name="pass"></div>
+                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$email?>" name="email"></div>
+                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="number_format" value="<?=$phone?>" name="phone"></div>
+                        <div class="col-lg-6 col-12 mb-30"><input class="form-control" type="text" value="<?=$dia_chi?>" name="dia_chi"></div>
                 </div>
 
                 <h4 class="title">Thao tác</h4>
 
                 <div class="product-upload-gallery row flex-wrap">
-
 
                     <!-- Button Group Start -->
                     <div class="row">
@@ -61,10 +53,10 @@ if (is_array($loadtk)) {
 
                 </div>
 
-            </div><!-- Add or Edit Product End -->   <?php if(isset($error)&&$error !=""){
-                echo '<p  style="color: red; text-align: center;"
-                > '.$error.' </p>';
+            </div><!-- Add or Edit Product End -->   
+            <?php if(isset($error) && $error != "") {
+                echo '<p style="color: red; text-align: center;">'.$error.'</p>';
             } ?>
- </div>
+        </div>
     </form>
 </div><!-- Content Body End -->

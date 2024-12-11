@@ -88,3 +88,8 @@ function load_all_rap() {
     $sql = "SELECT DISTINCT r.* FROM rap r ORDER BY r.tenrap";
     return pdo_query($sql);
 }
+
+function update_rap_id($id_taikhoan, $rap_id) {
+    $sql = "UPDATE taikhoan SET rap_id = ? WHERE id = ?";
+    pdo_execute($sql, $rap_id, $id_taikhoan);
+}

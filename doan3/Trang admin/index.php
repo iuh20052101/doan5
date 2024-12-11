@@ -861,8 +861,9 @@ if (isset($_SESSION['user1'])) {
                 if (isset($_SESSION['user1']) && $_SESSION['user1']['vai_tro'] == 1) {
                     $rap_id = $_SESSION['user1']['rap_id'];
                 }
+                $selected_rap = isset($_GET['rap_id']) ? $_GET['rap_id'] : '';
 
-                // Lấy thông tin tuần được chọn 
+                // Lấy thông tin tuần đư��c chọn 
                 $current_week = isset($_GET['week']) ? $_GET['week'] : date('Y-m-d');
                 $week_start = date('Y-m-d', strtotime('monday this week', strtotime($current_week)));
                 $week_end = date('Y-m-d', strtotime('sunday this week', strtotime($current_week)));
@@ -891,22 +892,26 @@ if (isset($_SESSION['user1'])) {
 
                             // Kiểm tra xem đã có lịch trong tháng này chưa
                             $sql_check = "SELECT COUNT(*) as count FROM lichlamviec 
-                                                            WHERE id_taikhoan = '$id_taikhoan' 
-                                                            AND id_rap = '$id_rap' 
-                                                            AND ngay_lam_viec BETWEEN '$first_day' AND '$last_day'";
+                            WHERE id_taikhoan = ? 
+                            AND id_rap = ? 
+                            AND ngay_lam_viec BETWEEN ? AND ?";
 
-                            $count = pdo_query($sql_check)[0]['count'];
+                            $count = pdo_query($sql_check, $id_taikhoan, $id_rap, $first_day, $last_day)[0]['count'];
 
                             if ($count > 0) {
                                 throw new Exception("Quản lý đã có lịch làm việc trong tháng này");
                             }
 
+                            // Thêm lịch làm việc
                             them_lich_quanly($id_taikhoan, $id_rap, $thang_lam, $ten_cong_viec);
+                            
+                            // Cập nhật rap_id trong bảng taikhoan
+                            update_rap_id($id_taikhoan, $id_rap);
 
                             echo "<script>
-                                                    alert('Thêm vị trí quản lý thành công!');
-                                                    window.location.href='index.php?act=lichlamviec';
-                                                </script>";
+                                alert('Thêm vị trí quản lý thành công!');
+                                window.location.href='index.php?act=lichlamviec';
+                            </script>";
                             exit;
                         } catch (Exception $e) {
                             $error = $e->getMessage();
@@ -1262,7 +1267,7 @@ if (isset($_SESSION['user1'])) {
                 //     $thang = isset($_GET['thang']) ? $_GET['thang'] : date('m');
                 //     $nam = isset($_GET['nam']) ? $_GET['nam'] : date('Y');
 
-                //     // Lấy danh sách lịch l��m việc hôm nay
+                //     // Lấy danh sách lịch làm việc hôm nay
                 //     $dsLichLamViec = getLichLamViecAll();
 
                 //     // Lấy bảng chấm công
