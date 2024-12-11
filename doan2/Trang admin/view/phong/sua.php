@@ -43,7 +43,7 @@ $rap_list = pdo_query($sql_rap);
                         <div class="col-md-8 mb-30">
                             <div class="form-group">
                                 <label class="title">Rạp</label>
-                                <select class="form-control select2" name="rap_id" required style="width: 100%;">
+                                <select class="form-control select2" name="rap_id" disabled style="width: 100%;">
                                     <option value="">Chọn rạp</option>
                                     <?php
                                     foreach($rap_list as $rap) {
@@ -52,6 +52,7 @@ $rap_list = pdo_query($sql_rap);
                                     }
                                     ?>
                                 </select>
+                                <input type="hidden" name="rap_id" value="<?= $rap_id ?>">
                             </div>
                         </div>
                     </div>
